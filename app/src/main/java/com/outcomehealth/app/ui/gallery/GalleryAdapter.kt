@@ -25,7 +25,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
         holder.bind(filteredElements[position], position, onVideoOHClicked)
 
     fun setData(newElements: List<VideoOH>?) {
-        elements = newElements?.sortedBy { it.name } ?: listOf()
+        elements = newElements?.sortedBy { it.title } ?: listOf()
         removeFilter()
         notifyDataSetChanged()
     }
@@ -37,7 +37,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
         }
 
         filteredElements = elements.filter {
-            it.name.contains(query, true)
+            it.title.contains(query, true)
         }
 
         notifyDataSetChanged()
@@ -46,7 +46,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
     private fun removeFilter() {
         filteredElements = elements.toMutableList()
     }
-    
+
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -56,7 +56,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
             onVideoOHClicked: (VideoOH) -> Unit
         ) {
             itemView.apply {
-
+                setOnClickListener { onVideoOHClicked(video) }
             }
         }
     }

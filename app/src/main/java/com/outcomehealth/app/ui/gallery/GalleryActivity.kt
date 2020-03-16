@@ -32,6 +32,8 @@ class GalleryActivity : AppCompatActivity() {
         initRecyclerView()
         observeLiveData()
         initUiEvents()
+
+        viewModel.activityCreated(intent.extras ?: savedInstanceState)
     }
 
     private fun initToolbar() {

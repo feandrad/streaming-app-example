@@ -3,8 +3,8 @@ package com.outcomehealth.app.usecase
 import com.outcomehealth.data.VideoRepository
 import com.outcomehealth.lib.VideoOH
 
-class LoadMovieGalleyUseCase(
+class LoadVideoByIdUseCase (
     private val videoRepository: VideoRepository
 ) {
-    suspend operator fun invoke(): List<VideoOH> = videoRepository.loadMovieGallery()
+      operator fun invoke(id :Int): VideoOH = videoRepository.loadVideoById(id)
 }
