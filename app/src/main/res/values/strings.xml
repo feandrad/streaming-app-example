@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Outcome Health Challenge</string>
+    <string name="app_name">Outcome Health</string>
+
+    <string name="nav_menu_title">Menu</string>
+    <string name="nav_menu_settings">Settings</string>
+    <string name="nav_menu_help">Help and Support</string>
+
+    <string name="img_desc_video_poster">Video Poster</string>
 </resources>

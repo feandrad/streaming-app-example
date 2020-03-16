@@ -1,4 +1,6 @@
 package com.outcomehealth.lib
 
-public class VideoOH {
-}
+data class VideoOH(
+    val id: Int,
+    val name: String
+)

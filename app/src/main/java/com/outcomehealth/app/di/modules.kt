@@ -8,7 +8,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val coreModule = module(override = true) {
-    viewModel { GalleryViewModel() }
+    viewModel { GalleryViewModel(get()) }
     factory { GalleryAdapter() }
     single { LoadMovieGalleyUseCase(get()) }
 
