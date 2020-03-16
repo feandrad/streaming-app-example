@@ -9,12 +9,12 @@ import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.outcomehealth.app.usecase.LoadVideoByIdUseCase
+import com.outcomehealth.app.usecase.LoadVideoByTitleUseCase
 import com.outcomehealth.lib.PlayerConfig
 import com.outcomehealth.lib.VideoOH
 
 class PlayerViewModel (
-    private val loadVideoById: LoadVideoByIdUseCase
+    private val loadVideoByTitle: LoadVideoByTitleUseCase
 ): ViewModel() {
 
 
@@ -24,8 +24,8 @@ class PlayerViewModel (
 
 
     fun activityCreated(bundle: Bundle?) {
-        bundle?.getInt(PlayerActivity.SELECTED_VIDEO)?.let {
-            videoLiveData.value = loadVideoById(it)
+        bundle?.getString(PlayerActivity.SELECTED_VIDEO)?.let {
+            videoLiveData.value = loadVideoByTitle(it)
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.outcomehealth.app.R
 import com.outcomehealth.app.ui.inflate
 import com.outcomehealth.lib.VideoOH
+import kotlinx.android.synthetic.main.item_gallery_video.view.*
 
 class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
@@ -22,7 +23,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
         ViewHolder(parent.inflate(viewType))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        holder.bind(filteredElements[position], position, onVideoOHClicked)
+        holder.bind(filteredElements[position], onVideoOHClicked)
 
     fun setData(newElements: List<VideoOH>?) {
         elements = newElements?.sortedBy { it.title } ?: listOf()
@@ -52,10 +53,10 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
         fun bind(
             video: VideoOH,
-            position: Int,
             onVideoOHClicked: (VideoOH) -> Unit
         ) {
             itemView.apply {
+                tv_video_title.text = video.title
                 setOnClickListener { onVideoOHClicked(video) }
             }
         }

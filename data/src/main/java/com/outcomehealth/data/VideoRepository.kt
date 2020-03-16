@@ -27,8 +27,8 @@ class VideoRepository(private val androidContext: Context) {
         return videos
     }
 
-    fun loadVideoById(id: Int): VideoOH {
-        return videos[id]
+    fun loadVideoById(title: String): VideoOH? {
+        return videos.find { it.title == title }
     }
 
     private fun loadJSONFromAsset(): String? = try {
@@ -47,12 +47,5 @@ class VideoRepository(private val androidContext: Context) {
     private fun serializeJsonArray(jsonStr: String): List<VideoOH> {
         val stringReader = StringReader(jsonStr)
         return Gson().fromJson(stringReader, Array<VideoOH>::class.java).toList()
-
-//        val gsonBuilder = GsonBuilder().serializeNulls()
-//        gsonBuilder.registerTypeAdapter(VideoOH::class.java, VideoOHDeserializer())
-//        val gson = gsonBuilder.create()
-//
-//        val stringReader = StringReader(jsonStr)
-//        return gson.fromJson(stringReader , Array<VideoOH>::class.java).toList()
     }
 }
