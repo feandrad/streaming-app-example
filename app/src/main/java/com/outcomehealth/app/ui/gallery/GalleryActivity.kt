@@ -70,7 +70,7 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun navigateToMovieActivity(video: VideoOH) {
         val intent = Intent(this, PlayerActivity::class.java)
-        intent.putExtra(PlayerActivity.SELECTED_VIDEO, video.id)
+        intent.putExtra(PlayerActivity.SELECTED_VIDEO, video.title)
         startActivity(intent)
     }
 

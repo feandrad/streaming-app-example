@@ -5,6 +5,7 @@ import com.outcomehealth.data.VideoRepository
 import com.outcomehealth.data.api.VideoApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,7 +16,7 @@ val dataModule = module(override = true) {
     single { provideCurrencyApi(get()) }
     single { provideRetrofit(get()) }
 
-    single { VideoRepository() }
+    single { VideoRepository(androidContext()) }
 }
 
 
