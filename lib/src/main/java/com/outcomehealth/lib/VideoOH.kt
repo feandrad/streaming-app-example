@@ -1,4 +1,4 @@
 package com.outcomehealth.lib
 
-public class Video {
+public class VideoOH {
 }
