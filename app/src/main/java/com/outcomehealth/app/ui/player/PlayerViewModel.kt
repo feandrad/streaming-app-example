@@ -1,6 +1,7 @@
 package com.outcomehealth.app.ui.player
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,14 +9,26 @@ import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.source.dash.DashChunkSource
+import com.google.android.exoplayer2.source.dash.DashMediaSource
+import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import com.google.android.exoplayer2.util.Util
+import com.outcomehealth.app.R
 import com.outcomehealth.app.usecase.LoadVideoByTitleUseCase
 import com.outcomehealth.lib.PlayerConfig
 import com.outcomehealth.lib.VideoOH
 
-class PlayerViewModel (
+
+class PlayerViewModel(
     private val loadVideoByTitle: LoadVideoByTitleUseCase
-): ViewModel() {
+) : ViewModel() {
 
 
     val videoLiveData = MutableLiveData<VideoOH>()
@@ -37,23 +50,27 @@ class PlayerViewModel (
         releasePlayer()
     }
 
-
     private fun initializePlayer(context: Context) {
+        val userAgent = Util.getUserAgent(context, context.getString(R.string.app_name))
+
+        val mediaSource = ExtractorMediaSource.Factory(DefaultDataSourceFactory(context, userAgent))
+            .setExtractorsFactory(DefaultExtractorsFactory())
+            .createMediaSource(Uri.parse(videoLiveData.value?.url))
+
+        val player = ExoPlayerFactory.newSimpleInstance(
+            DefaultRenderersFactory(context),
+            DefaultTrackSelector(),
+            DefaultLoadControl()
+        )
+
+        player.prepare(mediaSource)
+        player.playWhenReady = true
         playerConfigLiveData.value?.let {
-            val player = ExoPlayerFactory.newSimpleInstance(
-                DefaultRenderersFactory(context),
-                DefaultTrackSelector(),
-                DefaultLoadControl()
-            )
-            player.playWhenReady = it.playWhenReady
             player.seekTo(it.currentWindow, it.playbackPosition)
-
-//            val mediaSource = buildMediaSource(Uri.parse(videoLiveData.value?.uri ?: ""))
-//            player.prepare(mediaSource, true, false)
-
-            playerLiveData.value = player
         }
+        playerLiveData.value = player
     }
+
 
     private fun releasePlayer() {
         playerLiveData.value?.let {
