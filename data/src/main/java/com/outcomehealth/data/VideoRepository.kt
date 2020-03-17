@@ -11,7 +11,6 @@ import java.nio.charset.Charset
 class VideoRepository(private val androidContext: Context) {
 
     companion object {
-        const val JSON_ASSET = "code-challenge-manifest.json"
         const val CHARSET_UTF8 = "UTF-8"
     }
 
@@ -32,7 +31,7 @@ class VideoRepository(private val androidContext: Context) {
     }
 
     private fun loadJSONFromAsset(): String? = try {
-        val inputStream: InputStream = androidContext.assets.open(JSON_ASSET)
+        val inputStream: InputStream = androidContext.assets.open(BuildConfig.JSON_ASSET)
         val size: Int = inputStream.available()
         val buffer = ByteArray(size)
         inputStream.read(buffer)
