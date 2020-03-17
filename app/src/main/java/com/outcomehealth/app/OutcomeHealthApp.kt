@@ -1,12 +1,12 @@
 package com.outcomehealth.app
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.outcomehealth.app.di.coreModule
 import com.outcomehealth.data.di.dataModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class OutcomeHealthApp : Application() {
+class OutcomeHealthApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()

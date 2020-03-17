@@ -1,6 +1,7 @@
 package com.outcomehealth.data
 
 import android.content.Context
+import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.gson.Gson
 import com.outcomehealth.lib.VideoOH
 import java.io.IOException
@@ -28,6 +29,11 @@ class VideoRepository(private val androidContext: Context) {
 
     fun loadVideoById(title: String): VideoOH? {
         return videos.find { it.title == title }
+    }
+
+    fun downloadVideos() {
+        val databaseProvider =  ExoDatabaseProvider(androidContext);
+
     }
 
     private fun loadJSONFromAsset(): String? = try {

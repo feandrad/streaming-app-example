@@ -1,13 +1,12 @@
 package com.outcomehealth.app.ui.gallery
 
+import android.content.Context
 import android.os.Bundle
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.outcomehealth.app.usecase.LoadVideoGalleyUseCase
 import com.outcomehealth.lib.VideoOH
-import kotlinx.coroutines.Dispatchers
 
 class GalleryViewModel(
     private val loadVideoGallery: LoadVideoGalleyUseCase

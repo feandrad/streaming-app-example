@@ -5,28 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.dash.DashMediaSource
-import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
-import com.google.android.exoplayer2.upstream.cache.Cache
-import com.google.android.exoplayer2.upstream.cache.CacheDataSource
-import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
-import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.exoplayer2.util.Util
 import com.outcomehealth.app.R
 import com.outcomehealth.app.usecase.LoadVideoByTitleUseCase
 import com.outcomehealth.lib.PlayerConfig
 import com.outcomehealth.lib.VideoOH
-import java.io.File
 
 
 class PlayerViewModel(
@@ -57,11 +43,7 @@ class PlayerViewModel(
 
         val mediaSource = extractorMediaSource(context, videoLiveData.value?.url)
 
-        val player = ExoPlayerFactory.newSimpleInstance(
-            DefaultRenderersFactory(context),
-            DefaultTrackSelector(),
-            DefaultLoadControl()
-        )
+        val player = SimpleExoPlayer.Builder(context).build()
 
         player.prepare(mediaSource)
         player.playWhenReady = true
@@ -71,10 +53,9 @@ class PlayerViewModel(
         playerLiveData.value = player
     }
 
-    private fun extractorMediaSource(context: Context, url: String?): ExtractorMediaSource? {
+    private fun extractorMediaSource(context: Context, url: String?): ProgressiveMediaSource {
         val userAgent = Util.getUserAgent(context, context.getString(R.string.app_name))
-        return ExtractorMediaSource.Factory(DefaultDataSourceFactory(context, userAgent))
-            .setExtractorsFactory(DefaultExtractorsFactory())
+        return ProgressiveMediaSource.Factory(DefaultDataSourceFactory(context, userAgent))
             .createMediaSource(Uri.parse(url))
     }
 
