@@ -1,16 +1,15 @@
 package com.outcomehealth.app.ui.gallery
 
 import android.content.Intent
-import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.outcomehealth.app.R
+import com.outcomehealth.app.ui.base.BaseActivity
 import com.outcomehealth.app.ui.player.PlayerActivity
 import com.outcomehealth.lib.VideoOH
 import kotlinx.android.synthetic.main.activity_gallery.*
@@ -19,21 +18,16 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class GalleryActivity : AppCompatActivity() {
+class GalleryActivity : BaseActivity<GalleryViewModel>() {
 
-    private val viewModel: GalleryViewModel by viewModel()
+    override val viewModel: GalleryViewModel by viewModel()
+    override val layout: Int get() = R.layout.activity_gallery
 
     private val adapter: GalleryAdapter by inject()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gallery)
+    override fun initViews() {
         initToolbar()
         initRecyclerView()
-        observeLiveData()
-        initUiEvents()
-
-        viewModel.activityCreated(intent.extras ?: savedInstanceState)
     }
 
     private fun initToolbar() {
@@ -52,7 +46,8 @@ class GalleryActivity : AppCompatActivity() {
         rv_main_list.adapter = adapter
     }
 
-    private fun observeLiveData() {
+
+    override fun observeLiveData() {
         viewModel.videoList.observe(this, Observer {
             adapter.setData(it)
             v_loading.visibility = View.GONE
@@ -64,15 +59,15 @@ class GalleryActivity : AppCompatActivity() {
         })
     }
 
-    private fun initUiEvents() {
-        ic_menu.setOnClickListener { drawer_layout.openDrawer(nav_view) }
-    }
-
     private fun navigateToMovieActivity(video: VideoOH) {
         val intent = Intent(this, PlayerActivity::class.java)
         intent.putExtra(PlayerActivity.SELECTED_VIDEO, video.title)
         startActivity(intent)
     }
 
+
+    override fun initUiEvents() {
+        ic_menu.setOnClickListener { drawer_layout.openDrawer(nav_view) }
+    }
 
 }

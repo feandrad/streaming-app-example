@@ -10,32 +10,32 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.outcomehealth.app.R
+import com.outcomehealth.app.ui.base.BaseViewModel
 import com.outcomehealth.app.usecase.LoadVideoByTitleUseCase
 import com.outcomehealth.lib.PlayerConfig
 import com.outcomehealth.lib.VideoOH
 
 
-class PlayerViewModel(
+class PlayerViewModel (
     private val loadVideoByTitle: LoadVideoByTitleUseCase
-) : ViewModel() {
-
+) : BaseViewModel() {
 
     val videoLiveData = MutableLiveData<VideoOH>()
     val playerLiveData = MutableLiveData<SimpleExoPlayer>()
     val playerConfigLiveData = MutableLiveData<PlayerConfig>()
 
 
-    fun activityCreated(bundle: Bundle?) {
+    override fun activityCreated(bundle: Bundle?) {
         bundle?.getString(PlayerActivity.SELECTED_VIDEO)?.let {
             videoLiveData.value = loadVideoByTitle(it)
         }
     }
 
-    fun activityResumed(context: Context) {
+    override fun activityResumed(context: Context) {
         initializePlayer(context)
     }
 
-    fun activityPaused(context: Context) {
+    override fun activityPaused(context: Context) {
         releasePlayer()
     }
 
