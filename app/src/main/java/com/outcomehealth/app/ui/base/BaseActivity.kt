@@ -14,7 +14,7 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         init(layout, savedInstanceState)
     }
 
-    protected fun init(@LayoutRes layout: Int, savedInstanceState: Bundle?) {
+    protected open fun init(@LayoutRes layout: Int, savedInstanceState: Bundle?) {
         setContentView(layout)
         initViews()
         observeLiveData()

@@ -1,20 +1,22 @@
 package com.outcomehealth.app.ui.gallery
 
-import android.os.Bundle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.outcomehealth.app.ui.base.BaseViewModel
 import com.outcomehealth.app.usecase.LoadVideoGalleyUseCase
 import com.outcomehealth.lib.VideoOH
+import kotlinx.coroutines.Dispatchers
 
 class GalleryViewModel(
     private val loadVideoGallery: LoadVideoGalleyUseCase
 ) : BaseViewModel() {
 
-    val videoList = MutableLiveData<List<VideoOH>>()
     val selectedVideo = MutableLiveData<VideoOH>()
 
-    override fun activityCreated(bundle: Bundle?) {
-        videoList.value = loadVideoGallery()
+    val videoList: LiveData<List<VideoOH>> = liveData(Dispatchers.IO) {
+        val retrievedData = loadVideoGallery()
+        emit(retrievedData)
     }
 
 

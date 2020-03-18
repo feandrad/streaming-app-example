@@ -6,5 +6,5 @@ import com.outcomehealth.lib.VideoOH
 class LoadVideoGalleyUseCase(
 private val videoRepository: VideoRepository
 ) {
-     operator fun invoke(): List<VideoOH> = videoRepository.loadVideoGallery()
+    suspend operator fun invoke(): List<VideoOH> = videoRepository.loadVideoGallery()
 }
