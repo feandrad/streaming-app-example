@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.outcomehealth.app.R
 import com.outcomehealth.app.ui.base.BaseActivity
 import com.outcomehealth.app.ui.player.PlayerActivity
-import com.outcomehealth.lib.VideoOH
 import kotlinx.android.synthetic.main.activity_gallery.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
@@ -59,7 +58,7 @@ class GalleryActivity : BaseActivity<GalleryViewModel>() {
         })
     }
 
-    private fun navigateToMovieActivity(video: VideoOH) {
+    private fun navigateToMovieActivity(video: VideoViewData) {
         val intent = Intent(this, PlayerActivity::class.java)
         intent.putExtra(PlayerActivity.SELECTED_VIDEO, video.title)
         startActivity(intent)

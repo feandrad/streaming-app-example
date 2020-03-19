@@ -1,6 +1,8 @@
 package com.outcomehealth.data
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import com.outcomehealth.data.api.VideoApi
 import com.outcomehealth.lib.VideoOH
 

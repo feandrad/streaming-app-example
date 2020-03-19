@@ -5,15 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.outcomehealth.app.R
 import com.outcomehealth.app.ui.inflate
-import com.outcomehealth.lib.VideoOH
 import kotlinx.android.synthetic.main.item_gallery_video.view.*
 
 class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
-    private var elements: List<VideoOH> = listOf()
-    private var filteredElements: List<VideoOH> = listOf()
+    private var elements: List<VideoViewData> = listOf()
+    private var filteredElements: List<VideoViewData> = listOf()
 
-    var onVideoOHClicked: (VideoOH) -> Unit = {}
+    var onVideoOHClicked: (VideoViewData) -> Unit = {}
 
 
     override fun getItemCount(): Int = filteredElements.size
@@ -25,7 +24,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(filteredElements[position], onVideoOHClicked)
 
-    fun setData(newElements: List<VideoOH>?) {
+    fun setData(newElements: List<VideoViewData>?) {
         elements = newElements?.sortedBy { it.title } ?: listOf()
         removeFilter()
         notifyDataSetChanged()
@@ -52,11 +51,14 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(
-            video: VideoOH,
-            onVideoOHClicked: (VideoOH) -> Unit
+            video: VideoViewData,
+            onVideoOHClicked: (VideoViewData) -> Unit
         ) {
             itemView.apply {
                 tv_video_title.text = video.title
+                video.thumbnail?.let {
+                    img_movie_poster.setImageBitmap(video.thumbnail)
+                }
                 setOnClickListener { onVideoOHClicked(video) }
             }
         }
