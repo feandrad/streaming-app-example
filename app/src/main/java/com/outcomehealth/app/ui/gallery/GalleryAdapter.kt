@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.outcomehealth.app.R
 import com.outcomehealth.app.ui.inflate
 import kotlinx.android.synthetic.main.item_gallery_video.view.*
+import java.util.concurrent.TimeUnit
 
 class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
@@ -56,11 +57,20 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
         ) {
             itemView.apply {
                 tv_video_title.text = video.title
-                video.thumbnail?.let {
+                tv_video_duration.text = video.duration.toDurationString()
+                if (video.thumbnail != null) {
                     img_movie_poster.setImageBitmap(video.thumbnail)
+                } else {
+                    img_movie_poster.setImageResource(R.drawable.ic_movie)
                 }
                 setOnClickListener { onVideoOHClicked(video) }
             }
         }
     }
+}
+
+private fun Long.toDurationString(): String {
+    val min = TimeUnit.MILLISECONDS.toMinutes(this)
+    val sec = TimeUnit.MILLISECONDS.toSeconds(this) - TimeUnit.MINUTES.toSeconds(min)
+    return String.format("%d:%02d", min, sec);
 }
