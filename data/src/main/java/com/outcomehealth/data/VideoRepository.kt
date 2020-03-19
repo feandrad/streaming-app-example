@@ -34,4 +34,13 @@ class VideoRepository(
         return videos.find { it.title == title }
     }
 
+    fun loadNextVideo(title: String): VideoOH? {
+        videos.forEachIndexed { i, it ->
+            if (it.title == title && i < videos.size) {
+                return videos[i + 1]
+            }
+        }
+        return null
+    }
+
 }

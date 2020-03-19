@@ -4,20 +4,24 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.outcomehealth.app.R
 import com.outcomehealth.app.ui.base.BaseViewModel
+import com.outcomehealth.app.ui.gallery.VideoViewData
+import com.outcomehealth.app.usecase.LoadNextVideoByTitleUseCase
 import com.outcomehealth.app.usecase.LoadVideoByTitleUseCase
+import com.outcomehealth.app.usecase.LoadVideoGalleyUseCase
 import com.outcomehealth.lib.PlayerConfig
 import com.outcomehealth.lib.VideoOH
 
 
 class PlayerViewModel (
-    private val loadVideoByTitle: LoadVideoByTitleUseCase
+    private val loadVideoByTitle: LoadVideoByTitleUseCase,
+    private val loadNextVideoByTitle: LoadNextVideoByTitleUseCase,
+    private val loadVideoGalley: LoadVideoGalleyUseCase
 ) : BaseViewModel() {
 
     val videoLiveData = MutableLiveData<VideoOH>()
@@ -68,5 +72,9 @@ class PlayerViewModel (
             )
             it.release()
         }
+    }
+
+    fun videoClicked(video: VideoViewData) {
+        videoLiveData.value = loadVideoByTitle(video.title)
     }
 }

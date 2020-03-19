@@ -3,6 +3,7 @@ package com.outcomehealth.app.di
 import com.outcomehealth.app.ui.gallery.GalleryAdapter
 import com.outcomehealth.app.ui.gallery.GalleryViewModel
 import com.outcomehealth.app.ui.player.PlayerViewModel
+import com.outcomehealth.app.usecase.LoadNextVideoByTitleUseCase
 import com.outcomehealth.app.usecase.LoadVideoByTitleUseCase
 import com.outcomehealth.app.usecase.LoadVideoGalleyUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -13,6 +14,7 @@ val coreModule = module(override = true) {
     factory { GalleryAdapter() }
     single { LoadVideoGalleyUseCase(get()) }
 
-    viewModel { PlayerViewModel(get()) }
+    viewModel { PlayerViewModel(get(), get(), get()) }
     single { LoadVideoByTitleUseCase(get()) }
+    single { LoadNextVideoByTitleUseCase(get()) }
 }
