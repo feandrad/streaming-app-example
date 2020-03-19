@@ -4,6 +4,7 @@ import android.content.Context
 import com.outcomehealth.data.api.VideoApi
 import com.outcomehealth.lib.VideoOH
 
+
 class VideoRepository(
     private val androidContext: Context,
     private val videoApi: VideoApi
@@ -15,7 +16,15 @@ class VideoRepository(
     suspend fun loadVideoGallery(): List<VideoOH> {
         videos.clear()
         val result = videoApi.loadVideoManifest()
-        videos.addAll(result)
+        result.forEach {
+            videos.add(
+                VideoOH(
+                    title = it.title,
+                    url = it.url
+                )
+            )
+
+        }
         return videos
     }
 
