@@ -48,6 +48,8 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
         filteredElements = elements.toMutableList()
     }
 
+    fun isEmpty() = getItemCount() == 0
+
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

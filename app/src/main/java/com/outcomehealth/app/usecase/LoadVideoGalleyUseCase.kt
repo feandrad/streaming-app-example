@@ -28,8 +28,11 @@ class LoadVideoGalleyUseCase(
         try {
             mediaMetadataRetriever = MediaMetadataRetriever()
             mediaMetadataRetriever.setDataSource(video.url, HashMap())
-            duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
-            thumbnail = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
+            duration = mediaMetadataRetriever
+                .extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                .toLong()
+            thumbnail = mediaMetadataRetriever
+                .getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
