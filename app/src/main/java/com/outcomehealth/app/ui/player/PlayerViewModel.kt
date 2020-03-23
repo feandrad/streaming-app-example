@@ -3,10 +3,10 @@ package com.outcomehealth.app.ui.player
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.BundleCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -37,6 +37,7 @@ class PlayerViewModel(
         emit(retrievedData)
     }
 
+
     override fun activityCreated(bundle: Bundle?) {
         bundle?.getString(PlayerActivity.SELECTED_VIDEO)?.let {
             videoLiveData.value = loadVideoByTitle(it)
@@ -64,13 +65,35 @@ class PlayerViewModel(
     }
 
     private fun playVideo(context: Context, player: SimpleExoPlayer) {
-        val mediaSource = extractorMediaSource(context, videoLiveData.value?.url)
-        player.prepare(mediaSource)
-        player.playWhenReady = true
-        playerConfigLiveData.value?.let {
-            player.seekTo(it.currentWindow, it.playbackPosition)
+        videoLiveData.value?.let {video ->
+            val mediaSource = extractorMediaSource(context, video.url)
+            player.prepare(mediaSource)
+
+            player.playWhenReady = true
+            playerConfigLiveData.value?.let {
+                player.seekTo(it.currentWindow, it.playbackPosition)
+            }
+
+            player.addListener(initPlayerListener(context))
+            playerLiveData.value = player
+
+        } ?: releasePlayer()
+    }
+
+    private fun initPlayerListener(context: Context): Player.EventListener {
+        return object : Player.EventListener {
+            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                when (playbackState) {
+                    Player.STATE_ENDED -> startNextVideoIfAvailable(context)
+                    Player.STATE_BUFFERING -> {
+                    }
+                    Player.STATE_IDLE -> {
+                    }
+                    Player.STATE_READY -> {
+                    }
+                }
+            }
         }
-        playerLiveData.value = player
     }
 
     private fun extractorMediaSource(context: Context, url: String?): ProgressiveMediaSource {
@@ -93,5 +116,12 @@ class PlayerViewModel(
     fun videoClicked(video: VideoViewData, context: Context) {
         videoLiveData.value = loadVideoByTitle(video.title)
         playVideo(context, playerLiveData.value!!)
+    }
+
+    fun startNextVideoIfAvailable(context: Context) {
+        videoLiveData.value?.let {
+            videoLiveData.value = loadNextVideoByTitle(it.title)
+            playVideo(context, playerLiveData.value!!)
+        }
     }
 }

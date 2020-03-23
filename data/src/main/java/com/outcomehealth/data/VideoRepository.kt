@@ -36,7 +36,7 @@ class VideoRepository(
 
     fun loadNextVideo(title: String): VideoOH? {
         videos.forEachIndexed { i, it ->
-            if (it.title == title && i < videos.size) {
+            if (it.title == title && i < videos.size -1) {
                 return videos[i + 1]
             }
         }
