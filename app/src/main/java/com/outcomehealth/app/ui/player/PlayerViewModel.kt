@@ -59,6 +59,21 @@ class PlayerViewModel(
     }
 
 
+    fun videoClicked(video: VideoViewData, context: Context) {
+        videoLiveData.value = loadVideoByTitle(video.title)
+        updatePlayerConfigForNewVideo()
+        playVideo(context, playerLiveData.value!!)
+    }
+
+    fun startNextVideoIfAvailable(context: Context) {
+        videoLiveData.value?.let {
+            videoLiveData.value = loadNextVideoByTitle(it.title)
+            updatePlayerConfigForNewVideo()
+            playVideo(context, playerLiveData.value!!)
+        }
+    }
+
+
     private fun initializePlayer(context: Context) {
         val player = SimpleExoPlayer.Builder(context).build()
         playVideo(context, player)
@@ -113,15 +128,13 @@ class PlayerViewModel(
         }
     }
 
-    fun videoClicked(video: VideoViewData, context: Context) {
-        videoLiveData.value = loadVideoByTitle(video.title)
-        playVideo(context, playerLiveData.value!!)
-    }
-
-    fun startNextVideoIfAvailable(context: Context) {
-        videoLiveData.value?.let {
-            videoLiveData.value = loadNextVideoByTitle(it.title)
-            playVideo(context, playerLiveData.value!!)
+    private fun updatePlayerConfigForNewVideo() {
+        playerConfigLiveData.value?.let{
+            playerConfigLiveData.value = PlayerConfig(
+                playbackPosition = 0L,
+                currentWindow = it.currentWindow,
+                playWhenReady = it.playWhenReady
+            )
         }
     }
 }
