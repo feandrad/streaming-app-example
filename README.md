@@ -15,3 +15,5 @@
 ● Bonus: Each gallery entry displays video duration alongside title and thumbnail - *Done*
 
 ● Bonus: Write an instrumentation test for part of the app - *TODO*
+
+● Bonus: Cache for thumbnails to improve performance - *Done*

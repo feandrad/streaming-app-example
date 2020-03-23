@@ -1,8 +1,6 @@
 package com.outcomehealth.data
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
 import com.outcomehealth.data.api.VideoApi
 import com.outcomehealth.lib.VideoOH
 
@@ -13,6 +11,7 @@ class VideoRepository(
 ) {
 
     private val videos = mutableListOf<VideoOH>()
+    private val metadatas = hashMapOf<String, VideoMetadata>()
 
 
     suspend fun loadVideoGallery(): List<VideoOH> {
@@ -36,11 +35,17 @@ class VideoRepository(
 
     fun loadNextVideo(title: String): VideoOH? {
         videos.forEachIndexed { i, it ->
-            if (it.title == title && i < videos.size -1) {
+            if (it.title == title && i < videos.size - 1) {
                 return videos[i + 1]
             }
         }
         return null
+    }
+
+    fun loadMetadata(video: VideoOH): VideoMetadata? = metadatas[video.title]
+
+    fun saveMetadata(video: VideoOH, videoMetadata: VideoMetadata) {
+        metadatas[video.title] = videoMetadata
     }
 
 }

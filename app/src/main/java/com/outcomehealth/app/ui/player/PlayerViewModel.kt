@@ -65,7 +65,7 @@ class PlayerViewModel(
     }
 
     private fun playVideo(context: Context, player: SimpleExoPlayer) {
-        videoLiveData.value?.let {video ->
+        videoLiveData.value?.let { video ->
             val mediaSource = extractorMediaSource(context, video.url)
             player.prepare(mediaSource)
 
