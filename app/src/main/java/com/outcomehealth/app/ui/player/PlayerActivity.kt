@@ -1,8 +1,8 @@
 package com.outcomehealth.app.ui.player
 
 import android.content.res.Configuration
-import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.outcomehealth.app.R
@@ -26,9 +26,11 @@ class PlayerActivity : BaseActivity<PlayerViewModel>() {
 
 
     override fun initViews() {
-        super.initViews()
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (!isLayoutLandscape()) {
+            setFullScreenMode(false)
             initRecyclerView()
+        } else {
+            setFullScreenMode(true)
         }
     }
 
@@ -47,17 +49,27 @@ class PlayerActivity : BaseActivity<PlayerViewModel>() {
 
 
     private fun initRecyclerView() {
-        if (!isLayoutLandscape()) {
-            rv_gallery!!.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            adapter.onVideoOHClicked = { viewModel.videoClicked(it, this) }
-            rv_gallery!!.adapter = adapter
-        }
+        rv_gallery!!.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        adapter.onVideoOHClicked = { viewModel.videoClicked(it, this) }
+        rv_gallery!!.adapter = adapter
+
     }
 
     private fun isLayoutLandscape() =
         resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
+
+    private fun setFullScreenMode(active: Boolean) {
+        if (active) window.apply {
+            setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+
+            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        }
+    }
 
     private fun resolveGalleryVisibility() {
         if (adapter.isEmpty()) {
