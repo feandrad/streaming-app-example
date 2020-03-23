@@ -3,6 +3,7 @@ package com.outcomehealth.app.ui.player
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.app.BundleCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -49,6 +50,13 @@ class PlayerViewModel(
     override fun activityPaused(context: Context) {
         releasePlayer()
     }
+
+    override fun makeOutOfStateBundle(outState: Bundle): Bundle {
+        val bundle = Bundle()
+        bundle.putString(PlayerActivity.SELECTED_VIDEO, videoLiveData.value?.url)
+        return bundle
+    }
+
 
     private fun initializePlayer(context: Context) {
         val player = SimpleExoPlayer.Builder(context).build()

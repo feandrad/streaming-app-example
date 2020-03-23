@@ -20,7 +20,7 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         observeLiveData()
         initUiEvents()
 
-        viewModel.activityCreated(intent.extras ?: savedInstanceState)
+        viewModel.activityCreated(savedInstanceState ?: intent.extras)
     }
 
     override fun onResume() {
@@ -31,6 +31,10 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         viewModel.activityPaused(this)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(viewModel.makeOutOfStateBundle(outState))
     }
 
 

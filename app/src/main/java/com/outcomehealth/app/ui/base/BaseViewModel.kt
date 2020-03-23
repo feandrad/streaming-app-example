@@ -14,4 +14,8 @@ abstract class BaseViewModel : ViewModel() {
 
     open fun activityPaused(context: Context) {
     }
+
+    open fun makeOutOfStateBundle(outState: Bundle): Bundle {
+        return outState
+    }
 }
