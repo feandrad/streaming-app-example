@@ -1,19 +1,17 @@
-● Either fetch and parse video manifest file(located at https://bit.ly/2MIjM4F), or package the file with your app. However if you choose to package this file into the Android project, then the offline playing becomes mandatory - *Done* 
+# Streaming App Example
 
-● Display the contents of the manifest in a clickable gallery, where each entry is comprised of a video thumbnail and title - *Done*
+This is a small app that I created using exoplayer that can stream videos from a json file in a loop as a playlist for waiting rooms for a company in US 3 years ago. The app has the following features and fixes:
 
-● In portrait mode, display a selected video above the gallery, i.e. YouTube in portrait mode - *Done*
+- A gallery on the player activity that shows the available videos to play
+- Thumbnails and duration of the videos on the gallery
+- Automatic playback of the next video after the current one ends
+- Fixed bugs related to video source changing, video configuration, and metadata cache
+- Updated the exoplayer library and removed retrofit dependency to optimize the performance
 
-● In landscape mode, videos must play fullscreen - *Done*
+## How to use
 
-● Video playback position must be maintained through orientation changes - *Done*
+To use this app, you need to have Android Studio installed and clone this repository. Then, open the project in Android Studio and run it on an emulator or a device. You can also modify the json file that contains the video sources and metadata.
 
-● The next video in the list should auto-play after first user selection completes - *Done*
+## License
 
-● Bonus: Videos can play offline(however if you choose to package the json file, then this feature is mandatory) - *Will not be done, I will fetch and parse the video manifest*
-
-● Bonus: Each gallery entry displays video duration alongside title and thumbnail - *Done*
-
-● Bonus: Write an instrumentation test for part of the app - *TODO*
-
-● Bonus: Cache for thumbnails to improve performance - *Done*
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
